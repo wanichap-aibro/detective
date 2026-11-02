@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#123653">
+<title>Thai Detective | นักสืบถอดรหัสข้อความ · SmartMathPro</title>
+<style>
+:root{--navy:#102e48;--navy2:#173f5f;--cyan:#39bdff;--blue:#0b87d0;--soft:#ecf9ff;--paper:#fffdf7;--yellow:#f9d668;--pink:#ff9ec4;--ink:#153148;--mute:#607788;--border:#cbe5f0;--good:#177a54;--bad:#bb4651;--shadow:0 10px 30px rgba(17,49,76,.10)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#f1f9fc;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans Thai","Segoe UI",Tahoma,sans-serif;font-size:15px;line-height:1.65}
+button{font:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid #f0bb45;outline-offset:3px}
+.wrap{width:min(860px,calc(100% - 24px));margin:auto;padding:15px 0 36px}
+.hero{background:radial-gradient(circle at 92% 0,rgba(57,189,255,.32),transparent 43%),linear-gradient(135deg,#102f48,#1a5276);border-radius:23px;overflow:hidden;min-height:228px;position:relative;display:flex;align-items:center;box-shadow:var(--shadow);color:white;padding:23px 25px}
+.hero:before{content:"";position:absolute;inset:0;opacity:.12;background-image:linear-gradient(90deg,transparent 95%,#fff 95%),linear-gradient(transparent 95%,#fff 95%);background-size:33px 33px;pointer-events:none}
+.hero-copy{position:relative;z-index:1;max-width:550px}
+.brand{color:#8de2ff;letter-spacing:1.9px;text-transform:uppercase;font-weight:900;font-size:11px;display:flex;align-items:center;gap:8px}
+.brand i{width:9px;height:9px;border-radius:50%;background:#f8d56d;box-shadow:0 0 0 4px #f8d56d25}
+h1{font-size:clamp(24px,4vw,36px);line-height:1.25;margin:10px 0 8px;letter-spacing:-.4px}
+.hero p{font-size:14px;margin:0;color:#d9f1ff;max-width:525px}
+.hero-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px}
+.hero-chips span{padding:5px 11px;border:1px solid #80cbed60;border-radius:99px;color:#d8f6ff;font-size:12px;font-weight:700;background:#ffffff10}
+.magnify{position:absolute;right:10px;top:18px;width:235px;opacity:.95;transform:rotate(-12deg);pointer-events:none}
+.tabs{display:flex;gap:9px;margin:15px 0 0;flex-wrap:wrap}
+.tab{border:1px solid #b7ddeb;border-radius:13px;background:#fff;color:#39647e;font-weight:850;padding:10px 15px;box-shadow:0 3px 10px #12365308}
+.tab[aria-selected=true]{background:var(--navy);color:white;border-color:var(--navy)}
+.panel{display:none}.panel.active{display:block}
+.card{background:white;border:1px solid var(--border);border-radius:20px;padding:20px;margin-top:14px;box-shadow:var(--shadow)}
+.section-h{margin:0 0 4px;font-size:20px;line-height:1.35}
+.desc{margin:0;color:var(--mute);font-size:13px}
+.topline{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.counter{padding:8px 13px;border-radius:12px;background:#eaf8ff;font-weight:850;color:#176a99;font-size:13px;border:1px solid #d0ecf9}
+.case-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.case-card{border:1px solid #cde4ed;background:linear-gradient(140deg,#fffdf6,#fff);border-radius:16px;padding:17px;position:relative;transition:transform .15s ease,box-shadow .15s ease}
+.case-card:hover{transform:translateY(-2px);box-shadow:0 8px 18px #102e4813}
+.case-top{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+.case-icon{display:grid;place-items:center;width:43px;height:43px;border-radius:12px;font-size:24px;background:#dff5ff}
+.case-id{font-size:11px;color:#678496;font-weight:850;letter-spacing:1.2px}
+.case-title{font-weight:950;font-size:17px;line-height:1.4}
+.case-tag{display:inline-block;padding:4px 9px;font-size:11px;background:#edf7fb;border-radius:7px;color:#3a6a83;font-weight:800;margin-top:10px}
+.case-cta{display:block;margin-top:13px;background:#123b5b;border:0;color:white;padding:9px 13px;font-size:13px;font-weight:850;border-radius:10px}
+.case-cta.done{background:#197453}
+.instructions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:15px}
+.instruction{border-radius:15px;background:#f4fbff;padding:12px;border:1px solid #d7eef8}
+.instruction b{display:block;font-size:14px;margin-top:4px}
+.instruction .num{display:grid;place-items:center;width:29px;height:29px;border-radius:10px;background:#d1effe;color:#046b9e;font-weight:1000}
+.instruction p{margin:5px 0 0;color:#607788;font-size:12px;line-height:1.6}
+.back{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:5px 0;color:#367095;font-size:13px;font-weight:850}
+.game-head{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:8px}
+.stage-title{margin:0;font-size:22px;line-height:1.4}
+.stage-label{display:block;color:#64849b;font-size:12px;font-weight:900;letter-spacing:.7px}
+.scorebox{background:var(--navy);color:white;border-radius:14px;padding:9px 13px;display:flex;gap:12px;align-items:center}
+.scorebox small{font-weight:800;opacity:.7;display:block;font-size:10px;line-height:1.2}
+.scorebox b{font-size:23px;line-height:1.2}
+.progress{display:grid;grid-template-columns:repeat(12,1fr);gap:5px;margin:15px 0 2px}
+.progress span{height:7px;border-radius:20px;background:#d4e7ee}
+.progress span.done{background:#44bd91}
+.progress span.current{background:#ffcc58}
+.game-layout{display:grid;grid-template-columns:1fr;gap:14px}
+.dossier{background:linear-gradient(145deg,#fffdf7,#fff9e6);border-radius:18px;border:1px solid #ebddbd;padding:18px;position:relative}
+.dossier:before{content:"TOP SECRET / SMP CASE FILE";position:absolute;right:15px;top:13px;font-size:9px;font-weight:1000;letter-spacing:1px;color:#a48e6e}
+.dossier-label{display:flex;align-items:center;gap:8px;font-weight:900;font-size:14px;color:#9b7140;margin-bottom:12px;padding-right:130px}
+.dossier-label svg{flex:none}
+.excerpt-intro{font-size:13px;color:#7e6548;margin-bottom:10px}
+.clue-list{display:grid;gap:9px}
+.clue{background:#fff;border:1px solid #e8dfc9;padding:12px 13px;border-radius:11px;text-align:left;color:#243f53;display:flex;gap:10px;align-items:flex-start;transition:border .1s,background .1s}
+.clue .line-no{background:#f3e9d2;color:#9a7747;border-radius:6px;font-size:11px;font-weight:950;padding:2px 6px;flex:none;margin-top:2px}
+.clue.selectable:hover{border-color:#edbb55;background:#fff9df}
+.clue.selected{background:#fff1be;border:2px solid #e8b54b;padding:11px 12px}
+.clue.correct{background:#e8faed;border:2px solid #55bd83;padding:11px 12px}
+.clue.wrong{background:#fff0f0;border:2px solid #e69090;padding:11px 12px}
+.clue:disabled{cursor:default}
+.board{border-radius:18px;border:1px solid #c9e4f0;padding:18px;background:#fff}
+.step-badge{background:#dff5ff;border:1px solid #ade0f8;color:#0f78b0;border-radius:99px;font-weight:900;font-size:12px;padding:5px 10px;display:inline-flex;margin-bottom:10px}
+.prompt{font-size:18px;font-weight:900;margin:0 0 7px;line-height:1.55;color:#183b56}
+.tip{color:#637f91;font-size:13px;margin:0 0 15px}
+.choices{display:grid;gap:10px;margin-top:12px}
+.choice{text-align:left;width:100%;background:#f9fdff;border:1px solid #cbe3ef;border-radius:13px;padding:12px 13px;display:flex;gap:11px;align-items:flex-start;color:var(--ink);line-height:1.6}
+.choice:hover:not(:disabled){border-color:#4bbff5;background:#f1faff}
+.choice.selected{border:2px solid #169bd8;background:#e9f8ff;padding:11px 12px}
+.choice.correct{border:2px solid #2eac75;background:#e7f8ef;padding:11px 12px}
+.choice.wrong{border:2px solid #d76a71;background:#fff1f1;padding:11px 12px}
+.opt-letter{width:28px;height:28px;flex:none;border-radius:9px;display:grid;place-items:center;font-weight:950;background:#e6f4fa;color:#32789d;font-size:13px}
+.choice:disabled{cursor:default}
+.controls{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.btn{border:0;border-radius:12px;padding:11px 17px;font-weight:900;font-size:14px}
+.btn.primary{background:#0b83c1;color:white}
+.btn.primary:disabled{background:#91afbe;cursor:not-allowed}
+.btn.secondary{border:1px solid #bddce9;color:#286989;background:#f9fdff}
+.btn.gold{background:#f6d466;color:#604a1c}
+.feedback{margin-top:14px;border-radius:13px;padding:14px 16px;font-size:14px;border:1px solid #bde4d0;background:#ecfbf2;color:#245c45}
+.feedback.error{border-color:#edc5c5;background:#fff5f3;color:#8b4045}
+.feedback-title{font-weight:1000;font-size:16px;margin-bottom:4px}
+.feedback p{margin:3px 0 0}
+.hint{background:#fffae9;border:1px solid #eedfa8;color:#806126;border-radius:12px;padding:11px 13px;font-size:13px;margin:12px 0 0}
+.results{text-align:center;padding:28px 18px}
+.trophy{font-size:58px;margin:0 0 10px}
+.result-number{font-size:42px;line-height:1.2;font-weight:1000;color:#0f83b8;margin:8px 0}
+.result-summary{max-width:600px;margin:10px auto 17px;color:#59748a}
+.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:17px 0}
+.result-item{border:1px solid #d8e8ef;border-radius:13px;padding:10px;background:#fbfeff}
+.result-item b{font-size:18px;color:#0e6f9d}
+.result-item small{display:block;color:#6a8494;font-size:11px}
+.howto{font-size:14px;line-height:1.85;color:#334f65}
+.howto h3{font-size:16px;margin:15px 0 3px;color:#0a709c}
+.howto p{margin:2px 0}
+.hidden{display:none!important}
+@media(max-width:620px){
+ .hero{padding:20px 17px;min-height:218px}.magnify{opacity:.22;right:-56px;top:36px}.hero-copy{max-width:100%}.hero p{position:relative;z-index:1}
+ .card{padding:15px;border-radius:17px}.case-grid{grid-template-columns:1fr}.instructions{grid-template-columns:1fr}.instruction{display:grid;grid-template-columns:30px 1fr;gap:0 9px}.instruction p{grid-column:2}.instruction b{margin:0;align-self:center}
+ .dossier,.board{padding:13px}.dossier:before{display:none}.dossier-label{font-size:12px;padding-right:0}.prompt{font-size:16px}.scorebox b{font-size:19px}.scorebox{gap:9px}.game-head{align-items:flex-start}.stage-title{font-size:19px}
+ .result-grid{grid-template-columns:repeat(2,1fr)}.progress{gap:3px}.clue,.choice{font-size:13px}.btn{flex:1}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="hero">
+  <div class="hero-copy">
+    <div class="brand"><i></i> SMARTMATHPRO · THAI LAB</div>
+    <h1>THAI DETECTIVE<br>นักสืบถอดรหัสข้อความ</h1>
+    <p>เปิดแฟ้มคดี อ่านให้ลึกกว่าตัวอักษร แล้วใช้หลักฐานเพื่อ <b>ตีความ · อนุมาน · วิเคราะห์สาร</b> ในระดับ ม.ปลาย</p>
+    <div class="hero-chips"><span>🔎 4 แฟ้มคดี</span><span>🧩 12 ภารกิจ</span><span>⭐ คะแนนเต็ม 120</span></div>
+  </div>
+  <svg class="magnify" viewBox="0 0 240 220" aria-hidden="true"><circle cx="100" cy="84" r="63" fill="#7ad8ff1c" stroke="#8edfff" stroke-width="17"/><circle cx="100" cy="84" r="40" fill="#c8f2ff1e" stroke="#ffffff60" stroke-width="2"/><path d="M150 133 L213 202" stroke="#f9d668" stroke-width="25" stroke-linecap="round"/><path d="M151 130 L205 190" stroke="#fff9c2" stroke-width="6" stroke-linecap="round" opacity=".5"/><circle cx="84" cy="69" r="15" fill="white" opacity=".24"/></svg>
+</header>
+<nav class="tabs" aria-label="เมนู"><button class="tab" data-view="home" aria-selected="true">🗂 แฟ้มคดี</button><button class="tab" data-view="game" aria-selected="false">🔎 ห้องสืบสวน</button><button class="tab" data-view="guide" aria-selected="false">📘 คู่มือนักสืบ</button></nav>
+<section class="panel active" id="home">
+ <article class="card">
+  <div class="topline"><div><h2 class="section-h">เลือกแฟ้มคดีที่ต้องการสืบ</h2><p class="desc">แต่ละคดีมีข้อความให้วิเคราะห์ 1 ชุด และคำถาม 3 ภารกิจ</p></div><div class="counter" id="homeBest">สถิติสูงสุด — / 120</div></div>
+  <div class="case-grid" id="caseGrid"></div>
+ </article>
+ <article class="card"><h2 class="section-h">วิธีเล่นแบบนักสืบ</h2>
+ <div class="instructions"><div class="instruction"><span class="num">1</span><b>ค้นหาหลักฐาน</b><p>อ่านข้อความ แล้วคลิกประโยคที่สนับสนุนข้อสรุปได้ชัดที่สุด</p></div><div class="instruction"><span class="num">2</span><b>อนุมานอย่างมีเหตุผล</b><p>เลือกข้อสรุปที่ข้อความรองรับ โดยไม่เติมข้อมูลที่ไม่มีหลักฐาน</p></div><div class="instruction"><span class="num">3</span><b>วิเคราะห์สาร</b><p>ตรวจน้ำเสียง เจตนา ข้อเท็จจริง หรือความน่าเชื่อถือของผู้เขียน</p></div></div>
+ <div class="controls"><button class="btn primary" id="startAll">เริ่มสืบคดีแรก</button><button class="btn secondary" id="resetAll">เริ่มเกมใหม่ทั้งหมด</button></div>
+ <p class="desc" style="margin-top:10px">โจทย์และข้อความแต่งใหม่เพื่อการเรียนรู้ ไม่ใช่ข้อสอบ A-Level จริง · คะแนนสูงสุดบันทึกเฉพาะบนเบราว์เซอร์นี้</p>
+ </article>
+</section>
+<section class="panel" id="game">
+ <article class="card" id="gameArea" aria-live="polite"></article>
+</section>
+<section class="panel" id="guide">
+ <article class="card howto">
+  <h2 class="section-h">คู่มือนักสืบ: อ่านข้อความอย่างไรไม่ให้สรุปเกินหลักฐาน</h2>
+  <h3>การตีความ (Interpretation)</h3><p>มองความหมายที่ผู้เขียนสื่อโดยนัย เช่น ความรู้สึก น้ำเสียง หรือเจตนาจากพฤติกรรมและถ้อยคำ ไม่ใช่อ่านเพียงความหมายตรงตัว</p>
+  <h3>การอนุมาน (Inference)</h3><p>ใช้ข้อมูลที่ปรากฏและเหตุผลเชื่อมไปสู่ข้อสรุปที่สมเหตุสมผล ระวังข้อสรุปที่พูดเกินข้อมูล เช่น เปลี่ยนคำว่า “บางคน” เป็น “ทุกคน” หรือเปลี่ยนความเป็นไปได้ให้กลายเป็นความแน่นอน</p>
+  <h3>การวิเคราะห์สาร (Message Analysis)</h3><p>ตรวจว่าอะไรเป็นข้อมูลที่ตรวจสอบได้ อะไรเป็นความคิดเห็น คำคาดการณ์ หรือถ้อยคำชักจูง และพิจารณาว่าหลักฐานรองรับคำกล่าวอ้างจริงหรือไม่</p>
+  <h3>กฎทองของนักสืบ</h3><p><b>“หลักฐานบอกอะไรได้บ้าง และอะไรที่หลักฐานยังบอกไม่ได้?”</b> คือคำถามสำคัญที่สุดก่อนเลือกคำตอบ</p>
+ </article>
+</section>
+</main>
+<script>
+'use strict';
+const cases=[
+ {id:'letter',emoji:'✉️',tag:'การตีความ · ภาษานัย',title:'จดหมายที่ยังไม่ได้ส่ง',teaser:'เพราะเหตุใดนักเรียนคนหนึ่งจึงเปลี่ยนใจหน้าห้องพักครู?',scene:'บันทึกเหตุการณ์หลังเลิกเรียน',sentences:[
+   'หลังเลิกเรียน นิดเดินมายืนหน้าห้องพักครูเป็นครั้งที่สามของวัน',
+   'เธอกำกระดาษที่พับไว้แน่นและมองนาฬิกาทุกครู่',
+   'เมื่อประตูเปิด นิดรีบเก็บกระดาษลงกระเป๋าและพูดว่า “ไว้พรุ่งนี้ก็ได้ค่ะ”',
+   'ระหว่างเดินกลับ เธอถอนหายใจยาวหนึ่งครั้ง'
+ ],tasks:[
+  {type:'evidence',skill:'ค้นหาหลักฐาน',question:'ข้อความใดเป็นหลักฐานที่ชัดที่สุดว่า “นิดอาจกำลังกังวล”',answer:1,hint:'สังเกตท่าทางและอากัปกิริยาที่สื่อความรู้สึกโดยไม่ต้องมีคำว่า “กังวล”',explain:'การกำกระดาษแน่นและมองนาฬิกาถี่ ๆ เป็นพฤติกรรมที่ช่วยรองรับการตีความเรื่องความกังวลได้ชัดกว่าข้อความอื่น แต่ยังไม่ยืนยันสาเหตุที่แท้จริง'},
+  {type:'choice',skill:'การอนุมาน',question:'ข้อสรุปใดสมเหตุสมผลที่สุดจากข้อความทั้งหมด?',options:['นิดลังเลที่จะพูดเรื่องบางอย่างกับครู','นิดถูกครูลงโทษอย่างหนัก','ครูไม่ยอมให้นิดเข้าห้องพักครู','กระดาษใบนั้นเป็นจดหมายขอโทษครู'],answer:0,hint:'เลือกสิ่งที่พฤติกรรมในเรื่องพอรองรับได้ และไม่แต่งรายละเอียดใหม่',explain:'การมาหลายครั้งแล้วถอยกลับเมื่อประตูเปิด สอดคล้องกับความลังเล ส่วนเรื่องการลงโทษ การถูกห้ามเข้าห้อง หรือเนื้อหาในกระดาษ ไม่มีข้อมูลยืนยัน'},
+  {type:'choice',skill:'วิเคราะห์น้ำเสียง',question:'บรรยากาศหรืออารมณ์ที่ข้อความสื่อเด่นที่สุดคือข้อใด?',options:['สนุกสนานและตื่นเต้น','ลังเลและกังวล','โกรธเคืองและท้าทาย','มั่นใจและผ่อนคลาย'],answer:1,hint:'พิจารณาพฤติกรรมก่อนและหลังประตูเปิด รวมถึงการถอนหายใจ',explain:'ท่าทางกำกระดาษ รีบเก็บกระดาษ และถอนหายใจ สนับสนุนบรรยากาศลังเลหรือกังวล ไม่ได้สื่อความร่าเริงหรือความมั่นใจ'}
+ ]},
+ {id:'bottle',emoji:'🧃',tag:'อนุมานจากข้อมูล · ข้อเท็จจริง',title:'ปริศนาขวดน้ำในโรงเรียน',teaser:'ตัวเลขในรายงานบอกอะไรได้จริง และอะไรยังบอกไม่ได้?',scene:'รายงานกิจกรรมชมรมสิ่งแวดล้อม',sentences:[
+   'ชมรมสิ่งแวดล้อมสำรวจนักเรียน 200 คนในสัปดาห์แรกของภาคเรียน',
+   'ในกลุ่มผู้ตอบแบบสำรวจ 128 คนบอกว่าพกขวดน้ำส่วนตัวมาโรงเรียน',
+   'คณะทำงานเสนอให้เพิ่มจุดเติมน้ำอีกหนึ่งจุดในภาคเรียนหน้า',
+   'หัวหน้าชมรมกล่าวว่า “นี่คือสัญญาณที่ดีของโรงเรียนเรา”'
+ ],tasks:[
+  {type:'evidence',skill:'ค้นหาหลักฐาน',question:'ข้อความใดใช้ยืนยันว่า “ผู้ตอบแบบสำรวจเกินครึ่งพกขวดน้ำส่วนตัว” ได้ตรงที่สุด?',answer:1,hint:'มองหาข้อมูลจำนวนที่เทียบกับกลุ่มผู้ตอบแบบสำรวจได้',explain:'128 จาก 200 คน เท่ากับ 64% ซึ่งมากกว่าครึ่งหนึ่งของผู้ตอบแบบสำรวจ ข้อมูลนี้ไม่ได้หมายถึงนักเรียนทุกคนในโรงเรียน'},
+  {type:'choice',skill:'การอนุมาน',question:'ข้อใดสรุปจากรายงานได้ถูกต้องที่สุด?',options:['นักเรียนทุกคนในโรงเรียนพกขวดน้ำส่วนตัว','ผู้ตอบแบบสำรวจมากกว่าครึ่งพกขวดน้ำส่วนตัว','โรงเรียนได้ติดตั้งจุดเติมน้ำใหม่เรียบร้อยแล้ว','จำนวนนักเรียนที่พกขวดน้ำเพิ่มขึ้นจากปีก่อน'],answer:1,hint:'แยก “ผู้ตอบแบบสำรวจ” ออกจาก “นักเรียนทั้งหมด” และแยกข้อเสนอออกจากสิ่งที่ทำแล้ว',explain:'128 จาก 200 คนเป็น 64% จึงสรุปได้เฉพาะกลุ่มที่สำรวจ ข้อความไม่มีข้อมูลเทียบปีก่อน และมีเพียงข้อเสนอเรื่องจุดเติมน้ำ'},
+  {type:'choice',skill:'วิเคราะห์สาร',question:'คำกล่าว “นี่คือสัญญาณที่ดีของโรงเรียนเรา” จัดเป็นข้อใดเหมาะสมที่สุด?',options:['ข้อมูลจำนวนคนที่ตรวจสอบได้โดยตรง','ความคิดเห็นประเมินความหมายของข้อมูล','ข้อกำหนดบังคับให้นักเรียนพกขวดน้ำ','ผลการทดลองที่พิสูจน์สาเหตุของการลดขยะ'],answer:1,hint:'พิจารณาว่าคำว่า “ดี” เป็นค่าที่วัดในรายงาน หรือเป็นการประเมินของผู้พูด',explain:'คำว่า “สัญญาณที่ดี” เป็นการประเมินหรือความคิดเห็นของหัวหน้าชมรม ต่างจากข้อมูลเชิงจำนวน 128 จาก 200 คน'}
+ ]},
+ {id:'rain',emoji:'☔',tag:'ตีความเงื่อนไข · เจตนาสื่อสาร',title:'งานวันเสาร์จะจัดที่ไหน?',teaser:'อ่านประกาศให้ครบก่อนสรุปว่ากิจกรรมย้ายสถานที่แล้ว',scene:'ข้อความจากทีมจัดกิจกรรมของโรงเรียน',sentences:[
+   'ครูแจ้งว่า “หากฝนตก เราจะย้ายกิจกรรมไปอาคารอเนกประสงค์”',
+   'พยากรณ์อากาศระบุว่ามีโอกาสเกิดฝนในวันเสาร์',
+   'ผู้จัดงานยังแสดงสถานที่หลักบนโปสเตอร์ว่า “ลานหน้าอาคารเรียน”',
+   'เช้าวันเสาร์ยังไม่มีข้อความยืนยันการเปลี่ยนสถานที่จากทีมงาน'
+ ],tasks:[
+  {type:'evidence',skill:'ค้นหาหลักฐาน',question:'ประโยคใดเป็นหลักฐานสำคัญว่า “อาคารอเนกประสงค์เป็นสถานที่สำรองเมื่อฝนตก”?',answer:0,hint:'มองหาประโยคเงื่อนไขที่บอกว่าการย้ายสถานที่จะเกิดขึ้นเมื่อใด',explain:'ประโยค “หากฝนตก...” บอกเงื่อนไขชัดเจนว่าอาคารอเนกประสงค์เป็นสถานที่สำรอง ไม่ได้บอกว่าได้ย้ายแล้ว'},
+  {type:'choice',skill:'การอนุมาน',question:'จากข้อมูลทั้งหมด ข้อใดเป็นข้อสรุปที่ระมัดระวังและถูกต้องที่สุด?',options:['งานย้ายไปอาคารอเนกประสงค์แน่นอนแล้ว','วันเสาร์จะไม่มีฝนตกอย่างแน่นอน','สถานที่หลักยังเป็นลานหน้าอาคารเรียน และมีแผนสำรองหากฝนตก','ทีมงานยกเลิกกิจกรรมแล้ว'],answer:2,hint:'แยกคำว่า “มีโอกาส” กับ “แน่นอน” และดูว่ามีประกาศยืนยันการย้ายหรือยัง',explain:'สถานที่หลักยังอยู่บนโปสเตอร์ และยังไม่มีประกาศย้ายที่แน่ชัด แต่มีแผนสำรองไว้หากฝนตก'},
+  {type:'choice',skill:'วิเคราะห์เจตนา',question:'ข้อความจากครูที่ขึ้นต้นด้วย “หากฝนตก...” มีจุดประสงค์หลักใด?',options:['แจ้งเงื่อนไขและแผนสำรองเพื่อเตรียมความพร้อม','ยืนยันว่ากิจกรรมถูกยกเลิก','คาดคะเนว่าฝนจะตกทั้งวัน','โฆษณาอาคารอเนกประสงค์ให้มีคนมาใช้'],answer:0,hint:'พิจารณาว่าผู้ส่งสารต้องการให้ผู้รับเตรียมตัวอย่างไร',explain:'ครูแจ้งแผนการจัดกิจกรรมในกรณีฝนตก เพื่อให้ผู้เข้าร่วมทราบสถานที่สำรอง ไม่ใช่ประกาศยกเลิกหรือทำนายอากาศ'}
+ ]},
+ {id:'ad',emoji:'📱',tag:'วิเคราะห์สื่อ · ความน่าเชื่อถือ',title:'โฆษณาที่ดูดีเกินจริง?',teaser:'ข้อความชวนเชื่อกับหลักฐานจริงตรงกันหรือไม่?',scene:'โฆษณาแอปช่วยอ่านหนังสือ',sentences:[
+   'โฆษณากล่าวว่า “อ่านแค่วันละ 10 นาที คะแนนสอบพุ่งทันที!”',
+   'เว็บไซต์รายงานว่าให้ผู้ใช้ 12 คนทดลองใช้แอปเป็นเวลาหนึ่งสัปดาห์',
+   'ผู้ใช้ 8 คนระบุว่ารู้สึกว่าการอ่านสนุกขึ้น',
+   'โฆษณาไม่ได้แสดงข้อมูลคะแนนสอบก่อนและหลังการใช้แอป'
+ ],tasks:[
+  {type:'evidence',skill:'ค้นหาหลักฐาน',question:'ข้อความใดแสดงได้ตรงที่สุดว่า “ยังไม่มีหลักฐานยืนยันว่าคะแนนสอบเพิ่มขึ้น”?',answer:3,hint:'มองหาว่ามีข้อมูลที่วัดผลด้าน “คะแนนสอบ” จริงหรือไม่',explain:'เมื่อไม่มีคะแนนสอบก่อน–หลังใช้แอป จึงไม่อาจสรุปจากข้อความนี้ว่าคะแนนเพิ่มขึ้นจริง แม้บางคนจะรู้สึกสนุกขึ้น'},
+  {type:'choice',skill:'การอนุมาน',question:'ข้อสรุปใดเหมาะสมที่สุดเมื่อพิจารณาหลักฐานในโฆษณา?',options:['ผู้ใช้ทุกคนมีคะแนนสูงขึ้นหลังใช้แอป','ผลการทดลองพิสูจน์ว่าแอปทำให้ทุกคนสอบติด','ข้อมูลที่ให้มายังไม่เพียงพอจะยืนยันว่าคะแนนสอบสูงขึ้น','แอปนี้ไม่มีผู้ใช้คนใดชอบเลย'],answer:2,hint:'แยก “ความสนุกในการอ่าน” ออกจาก “คะแนนสอบที่วัดได้”',explain:'ผลสำรวจความสนุกกับคะแนนสอบเป็นคนละตัวแปร ข้อมูลไม่เพียงพอที่จะยืนยันคำกล่าวอ้างเรื่องคะแนนสอบ'},
+  {type:'choice',skill:'วิเคราะห์กลวิธีสื่อ',question:'คำว่า “คะแนนสอบพุ่งทันที!” มีลักษณะเด่นอย่างไร?',options:['รายงานผลคะแนนเชิงตัวเลขอย่างละเอียด','ใช้ถ้อยคำเร้าใจเพื่อชักจูง โดยยังไม่มีหลักฐานคะแนนรองรับ','เป็นคำอธิบายขั้นตอนการทดลองที่ตรวจสอบซ้ำได้','เป็นกฎระเบียบของการสอบที่ทุกคนต้องทำตาม'],answer:1,hint:'สังเกตคำที่กระตุ้นความคาดหวัง และหลักฐานที่แสดงในข้อความ',explain:'“พุ่งทันที” เป็นถ้อยคำชักจูงที่ทำให้ผู้รับสารคาดหวังผลสูง แต่โฆษณาไม่ได้ให้ผลคะแนนที่ตรวจสอบข้อกล่าวอ้างนั้นได้'}
+ ]}
+];
+const MAX=cases.length*3*10,KEY='smp_thai_detective_v1';
+let state={caseIndex:0,stage:0,answers:{},best:0};
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s && typeof s==='object' && s.answers && Number.isInteger(s.caseIndex) && Number.isInteger(s.stage)){state={...state,...s};state.caseIndex=Math.max(0,Math.min(cases.length-1,state.caseIndex));state.stage=Math.max(0,Math.min(3,state.stage))}}catch{}
+let selection=null,checked=false,showHint=false;
+const $=s=>document.querySelector(s);
+const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}};
+const result=(c,s)=>state.answers[`${c}-${s}`];
+const totalScore=()=>Object.values(state.answers).reduce((acc,r)=>acc+(r&&r.correct?10:0),0);
+const completedCount=c=>[0,1,2].filter(s=>!!result(c,s)).length;
+const completedAll=()=>cases.every((_,i)=>completedCount(i)===3);
+const syncBest=()=>{if(completedAll()){state.best=Math.max(state.best,totalScore());save()}};
+const switchView=name=>{document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===name));document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.view===name)));if(name==='home')renderHome();if(name==='game')renderGame();window.scrollTo({top:0,behavior:'smooth'});};
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchView(b.dataset.view)));
+function renderHome(){syncBest();$('#homeBest').textContent=`สถิติสูงสุด ${state.best} / ${MAX}`;const root=$('#caseGrid');root.replaceChildren();
+ cases.forEach((c,i)=>{const done=completedCount(i),card=el('div','case-card'),top=el('div','case-top'),emoji=el('div','case-icon',c.emoji),title=el('div'),idx=el('div','case-id',`CASE FILE ${String(i+1).padStart(2,'0')}`),name=el('div','case-title',c.title);title.append(idx,name);top.append(emoji,title);card.append(top,el('p','desc',c.teaser),el('span','case-tag',c.tag));const b=el('button','case-cta'+(done===3?' done':''),done===3?'✓ ดูคดีที่ทำแล้ว':done>0?`สืบต่อ (${done}/3)`:'เปิดแฟ้มคดี');b.addEventListener('click',()=>openCase(i));card.append(b);root.append(card)});
+}
+function openCase(i){state.caseIndex=i;state.stage=[0,1,2].find(s=>!result(i,s))??3;selection=null;checked=false;showHint=false;save();switchView('game')}
+function renderGame(){syncBest();const host=$('#gameArea');host.replaceChildren();const i=state.caseIndex,c=cases[i],stage=state.stage;
+ const back=el('button','back','← กลับไปหน้าแฟ้มคดี');back.onclick=()=>switchView('home');host.append(back);
+ const head=el('div','game-head'),left=el('div'),label=el('span','stage-label',`CASE FILE ${String(i+1).padStart(2,'0')} / ${cases.length} • ${c.tag}`),title=el('h2','stage-title',`${c.emoji} ${c.title}`);left.append(label,title);
+ const scorebox=el('div','scorebox'),s1=el('div'),s2=el('div');s1.innerHTML='<small>คะแนนสะสม</small>';s1.append(el('b','',String(totalScore())));s2.innerHTML=`<small>เต็ม ${MAX}</small>`;s2.append(el('b','',`${Object.keys(state.answers).length}/12`));scorebox.append(s1,s2);head.append(left,scorebox);host.append(head);
+ const progress=el('div','progress');progress.setAttribute('aria-label','ความคืบหน้า 12 ภารกิจ');for(let x=0;x<12;x++){const p=el('span');if(result(Math.floor(x/3),x%3))p.className='done';else if(x===i*3+stage)p.className='current';progress.append(p)}host.append(progress);
+ if(stage>=3){renderCaseEnd(host,i);return}
+ const t=c.tasks[stage],saved=result(i,stage);if(saved){checked=true;selection=saved.selected}else{checked=false;selection=null}showHint=false;
+ const layout=el('div','game-layout'),dossier=el('section','dossier'),dlabel=el('div','dossier-label');dlabel.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a17a40" stroke-width="2"><path d="M3 3h11l7 7v11H3z"/><path d="M14 3v7h7"/></svg> ';dlabel.append(document.createTextNode(`ข้อความหลักฐาน · ${c.scene}`));dossier.append(dlabel,el('div','excerpt-intro',t.type==='evidence'?'แตะประโยคในแฟ้มเพื่อใช้เป็นหลักฐาน (เลือกได้ 1 ประโยค)':'อ่านหลักฐานในแฟ้ม แล้วพิจารณาข้อสรุปด้านล่าง'));
+ const clueList=el('div','clue-list');c.sentences.forEach((sentence,k)=>{const b=el('button','clue'),num=el('span','line-no',String(k+1).padStart(2,'0')),content=el('span','',sentence);b.append(num,content);if(t.type==='evidence'){b.classList.add('selectable');b.disabled=checked;b.setAttribute('aria-pressed',String(selection===k));b.onclick=()=>{if(!checked){selection=k;updateSelection();}}}else b.disabled=true;
+ b.dataset.choice=String(k);clueList.append(b)});dossier.append(clueList);layout.append(dossier);
+ const board=el('section','board');board.append(el('div','step-badge',`ภารกิจ ${stage+1}/3 • ${t.skill}`),el('h3','prompt',t.question),el('p','tip',t.type==='evidence'?'เลือกประโยคที่เป็นหลักฐานตรงที่สุด ไม่ใช่ประโยคที่เดาเรื่องได้สนุกที่สุด':'เลือกคำตอบเพียงข้อเดียวที่ข้อความสนับสนุนได้ชัดที่สุด'));
+ if(t.type==='choice'){const choices=el('div','choices');t.options.forEach((op,k)=>{const b=el('button','choice');b.dataset.choice=k;b.setAttribute('aria-pressed',String(selection===k));b.disabled=checked;const badge=el('span','opt-letter','ABCD'[k]);b.append(badge,el('span','',op));b.onclick=()=>{if(!checked){selection=k;updateSelection()}};choices.append(b)});board.append(choices)}
+ const controls=el('div','controls'),check=el('button','btn primary','ตรวจหลักฐาน');check.id='checkAnswer';check.disabled=checked||selection===null;check.onclick=()=>checkAnswer();const hintbtn=el('button','btn secondary',showHint?'ซ่อนคำใบ้':'💡 ขอคำใบ้');hintbtn.id='hintBtn';hintbtn.hidden=checked;hintbtn.onclick=()=>{showHint=!showHint;hintbtn.textContent=showHint?'ซ่อนคำใบ้':'💡 ขอคำใบ้';const old=$('#hintContent');if(old)old.remove();if(showHint){const hint=el('div','hint',t.hint);hint.id='hintContent';controls.after(hint)}};controls.append(check,hintbtn);
+ if(saved){showFeedback(board,t,saved);appendNext(controls,i,stage)}board.append(controls);layout.append(board);host.append(layout);updateSelection();}
+function updateSelection(){const t=cases[state.caseIndex].tasks[state.stage];const saved=result(state.caseIndex,state.stage);const answer=t.answer;const canChoose=!checked;document.querySelectorAll(t.type==='evidence'?'.clue[data-choice]':'.choice[data-choice]').forEach(b=>{const idx=Number(b.dataset.choice);b.classList.remove('selected','correct','wrong');if(idx===selection)b.classList.add('selected');if(checked&&idx===answer)b.classList.add('correct');if(checked&&idx===selection&&idx!==answer)b.classList.add('wrong');b.setAttribute('aria-pressed',String(idx===selection));b.disabled=!canChoose});const button=$('#checkAnswer');if(button){button.disabled=checked||selection===null;button.classList.toggle('hidden',checked)}}
+function checkAnswer(){const i=state.caseIndex,s=state.stage,c=cases[i],t=c.tasks[s];if(result(i,s)||selection===null)return;const correct=selection===t.answer;state.answers[`${i}-${s}`]={selected:selection,correct};checked=true;save();updateSelection();const btn=$('#hintBtn');if(btn)btn.remove();const hint=$('#hintContent');if(hint)hint.remove();const board=$('.board');showFeedback(board,t,{selected:selection,correct});const controls=board.querySelector('.controls');appendNext(controls,i,s);syncBest();const sb=$('.scorebox b');if(sb)sb.textContent=String(totalScore());}
+function showFeedback(board,t,saved){const box=el('div','feedback'+(saved.correct?'':' error'));box.innerHTML=`<div class="feedback-title">${saved.correct?'✓ ไขคดีถูกต้อง +10 คะแนน':'↺ หลักฐานยังไม่ตรง (0 คะแนน)'}</div>`;const p=el('p','',t.explain);box.append(p);if(!saved.correct){const answerText=t.type==='evidence'?cases[state.caseIndex].sentences[t.answer]:t.options[t.answer];box.append(el('p','',`คำตอบที่เหมาะสม: ${answerText}`))}const controls=board.querySelector('.controls');if(controls)board.insertBefore(box,controls);else board.append(box)}
+function appendNext(controls,i,s){const next=el('button','btn primary',s===2?'สรุปคดี →':'ภารกิจถัดไป →');next.onclick=()=>{state.stage=s+1;selection=null;showHint=false;checked=false;save();renderGame()};controls.append(next)}
+function renderCaseEnd(host,i){const c=cases[i],r=el('div','results'),points=[0,1,2].reduce((n,s)=>n+(result(i,s)?.correct?10:0),0),trophy=el('div','trophy',points===30?'🏆':'🕵️');r.append(trophy,el('h3','section-h','ปิดแฟ้มคดีสำเร็จ!'),el('div','result-number',`${points} / 30`),el('p','result-summary',`${c.title} — คุณผ่านครบ 3 ภารกิจแล้ว ทุกคำตอบที่ไม่ถูกจะมีคำอธิบายให้ทบทวน โดยคะแนนจะนับจากการตอบครั้งแรกของแต่ละภารกิจ`));const list=el('div','result-grid');['ค้นหาหลักฐาน','การอนุมาน','วิเคราะห์สาร'].forEach((t,s)=>{const box=el('div','result-item');box.append(el('b','',result(i,s)?.correct?'10/10':'0/10'),el('small','',t));list.append(box)});const sum=el('div','result-item');sum.append(el('b','',String(totalScore())),el('small','',''));sum.lastChild.textContent=`คะแนนรวม / ${MAX}`;list.append(sum);r.append(list);
+ const controls=el('div','controls');controls.style.justifyContent='center';const nextIndex=[0,1,2,3].find(j=>completedCount(j)<3);if(nextIndex!==undefined){const b=el('button','btn primary','เปิดแฟ้มคดีต่อไป →');b.onclick=()=>openCase(nextIndex);controls.append(b)}else{syncBest();r.append(el('p','result-summary',`สืบครบทั้ง 4 คดี! คะแนนรวม ${totalScore()}/${MAX} · สถิติสูงสุด ${state.best}/${MAX}`));const b=el('button','btn gold','เริ่มสืบใหม่');b.onclick=resetEverything;controls.append(b)}const home=el('button','btn secondary','ดูแฟ้มคดีทั้งหมด');home.onclick=()=>switchView('home');controls.append(home);r.append(controls);host.append(r)}
+function resetEverything(){if(!confirm('เริ่มเกมใหม่ทั้งหมด? คำตอบและคะแนนของรอบนี้จะถูกล้าง แต่คะแนนสูงสุดยังอยู่'))return;state.answers={};state.caseIndex=0;state.stage=0;selection=null;checked=false;showHint=false;save();renderHome();switchView('game')}
+$('#startAll').onclick=()=>openCase(0);$('#resetAll').onclick=resetEverything;
+renderHome();
+</script>
+</body>
+</html>
